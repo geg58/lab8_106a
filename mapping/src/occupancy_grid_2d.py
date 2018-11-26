@@ -93,11 +93,15 @@ class OccupancyGrid2d(object):
         # TODO! You'll need to set values for class variables called:
         # -- self._sensor_topic
         # -- self._vis_topic
+        self._sensor_topic = rospy.get_param("~topics/sensor") 
+        self._vis_topic = rospy.get_param("~topics/vis")
 
         # Frames.
         # TODO! You'll need to set values for class variables called:
         # -- self._sensor_frame
         # -- self._fixed_frame
+        self._sensor_frame = rospy.get_param("~frames/sensor")
+        self._fixed_frame = rospy.get_param("~frames/fixed")
 
         return True
 
@@ -171,7 +175,25 @@ class OccupancyGrid2d(object):
             # Only update each voxel once. 
             # The occupancy grid is stored in self._map
             # TODO!
+            # initialization
+            x_val = 0
+            y_val = 0
+            for i in np.arange(r,0,-0.1):
+                x_prev = x_val
+                y_prev = y_val
+                x_val = i*np.sin(angle)
+                y_val = i*np.cos(angle)
 
+                val = self.PointToVoxel(x_val,y_val)
+                if self.PointToVoxel(x_val,y_val) != self.PointToVoxel(x_prev,y_prev):
+                    if i == r:
+                        self._map[val] += self._occupied_update
+                        if self._map[val] >= self._occupied_threshold:
+                            self._map[val] = self._occupied_threshold
+                    else:
+                        self._map[val] += self._free_update
+                        if self._map[val] <= self._free_threshold:
+                            self._map[val] = self._free_threshold
 
         # Visualize.
         self.Visualize()
