@@ -58,7 +58,7 @@ class OccupancyGrid2d(object):
         # -- self._x_max
         self._x_max = rospy.get_param("_x_max")
         # -- self._x_res # The resolution in x. Note: This isn't a ROS parameter. What will you do instead?
-        self._x_res = 
+        self._x_res = (self._x_max - self._x_min)/self._x_num
         # -- self._y_num
         self._y_num = rospy.get_param("_y_num")
         # -- self._y_min
@@ -66,7 +66,7 @@ class OccupancyGrid2d(object):
         # -- self._y_max
         self._y_max = rospy.get_param("_y_max")
         # -- self._y_res # The resolution in y. Note: This isn't a ROS parameter. What will you do instead?
-        self._y_res = 
+        self._y_res = (self._y_max - self._y_min)/self._y_num
 
         # Update parameters.
         if not rospy.has_param("~update/occupied"):
