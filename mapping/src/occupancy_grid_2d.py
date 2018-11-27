@@ -52,19 +52,19 @@ class OccupancyGrid2d(object):
         # Dimensions and bounds.
         # TODO! You'll need to set values for class variables called:
         # -- self._x_num
-        self.x_num = rospy.get_param("_x_num")
+        self._x_num = rospy.get_param("~x/num")
         # -- self._x_min
-        self._x_min = rospy.get_param("_x_min")
+        self._x_min = rospy.get_param("~x/min")
         # -- self._x_max
-        self._x_max = rospy.get_param("_x_max")
+        self._x_max = rospy.get_param("~x/max")
         # -- self._x_res # The resolution in x. Note: This isn't a ROS parameter. What will you do instead?
         self._x_res = (self._x_max - self._x_min)/self._x_num
         # -- self._y_num
-        self._y_num = rospy.get_param("_y_num")
+        self._y_num = rospy.get_param("~y/num")
         # -- self._y_min
-        self._y_min = rospy.get_param("_y_min")
+        self._y_min = rospy.get_param("~y/min")
         # -- self._y_max
-        self._y_max = rospy.get_param("_y_max")
+        self._y_max = rospy.get_param("~y/max")
         # -- self._y_res # The resolution in y. Note: This isn't a ROS parameter. What will you do instead?
         self._y_res = (self._y_max - self._y_min)/self._y_num
 
@@ -159,6 +159,7 @@ class OccupancyGrid2d(object):
 
             # Get angle of this ray in fixed frame.
             # TODO!
+            angle = msg.angle_min + idx*msg.angle_increment + yaw
 
             # Throw out this point if it is too close or too far away.
             if r > msg.range_max:
